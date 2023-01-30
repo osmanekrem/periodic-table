@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import elements from "./data"
+import bigdata from "./bigdata"
 
 function App() {
   const [selected, setSelected] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [selectedGroup, setSelectedGroup] = useState(false)
 
   const tr = {
     "atomicNumber": "Atom numarası",
@@ -63,7 +65,7 @@ function App() {
     "alkali toprak metal"
   ]
   return (
-    <>
+    <main>
     {openModal && selected && <div className="details-modal">
     <svg onClick={() => setOpenModal(false)} className="close" xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"/></svg>
       <div className="container">
@@ -116,7 +118,7 @@ function App() {
 
         {
           groups.map((group, i) => (
-            <div key={i}>
+            <div onClick={() => setSelectedGroup(groups[i] === selectedGroup ? false : groups[i])}  key={i}>
               <span className={`group ${group}`}></span>
               <span className="group-name">{group}</span>
             </div>
@@ -126,7 +128,7 @@ function App() {
       </div>
       {
         elements.map(element => (          
-          <div onClick={() => setSelected(element)} style={{gridColumn: element.group, gridRow: element.period+1}} className={`periodic-element ${element.groupBlock}`} key={element.atomicNumber}>
+          <div onClick={() => setSelected(element)} style={{gridColumn: element.group, gridRow: element.period+1}} className={`periodic-element ${element.groupBlock === selectedGroup ? "active" : ""} ${element.groupBlock}`} key={element.atomicNumber}>
             <div className="periodic-element-inner">
               <div className="title">{element.atomicNumber}</div>
               <div className="desc" translate="no">{element.symbol}</div>
@@ -140,7 +142,7 @@ function App() {
     
         {
           elements.slice(56, 71).map((element,i) => (          
-            <div onClick={() => setSelected(element)} style={{gridColumn: i+2, gridRow: element.period+4}} className={`periodic-element ${element.groupBlock}`} key={element.atomicNumber}>
+            <div onClick={() => setSelected(element)} style={{gridColumn: i+2, gridRow: element.period+4}} className={`periodic-element ${element.groupBlock === selectedGroup ? "active" : ""} ${element.groupBlock}`} key={element.atomicNumber}>
               <div className="periodic-element-inner">
                 <div className="title">{element.atomicNumber}</div>
                 <div className="desc" translate="no">{element.symbol}</div>
@@ -150,7 +152,7 @@ function App() {
         }
         {
           elements.slice(88, 103).map((element,i) => (          
-            <div onClick={() => setSelected(element)} style={{gridColumn: i+2, gridRow: element.period+4}} className={`periodic-element ${element.groupBlock}`} key={element.atomicNumber}>
+            <div onClick={() => setSelected(element)} style={{gridColumn: i+2, gridRow: element.period+4}} className={`periodic-element ${element.groupBlock === selectedGroup ? "active" : ""} ${element.groupBlock}`} key={element.atomicNumber}>
               <div className="periodic-element-inner">
                 <div className="title">{element.atomicNumber}</div>
                 <div className="desc" translate="no">{element.symbol}</div>
@@ -161,7 +163,7 @@ function App() {
         <footer className="footer">Developed by&nbsp; <a href="https://github.com/OsmanEkremKorkmaz">Osman Ekrem Korkmaz</a></footer>
     </div>
     
-    </>
+    </main>
   );
 }
 
